@@ -52,7 +52,8 @@ if ($id == $post['number']){
     $entry = [
     'is_reply' => true,
     'reply_to' => $id,
-    'datetime' => date('Y/m/d g:i e'),
+    'datetime' => $timestamp,
+    //'datetime' => date('Y/m/d g:i e'),
     'content' => $formatted_msg,
     'number' => $reply_count['number'] + 1,
 ];

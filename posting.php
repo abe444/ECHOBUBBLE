@@ -19,7 +19,6 @@ if (!empty($_POST['email'])){
 $fetch_data = file_get_contents('database.json', true);
 $data = json_decode($fetch_data, true);
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 // Retrieve and decode database data
 $fetch_data = file_get_contents('database.json', true);
@@ -57,7 +56,8 @@ $formatted_msg = preg_replace('/mega/i', '<span class="redtext">[MESSAGE DELETED
 $entry = [
     'is_post' => true,
     'bump_stamp' => $bump_stamp,
-    'datetime' => date('Y/m/d g:i e'),
+    'datetime' => $timestamp,
+    //'datetime' => date('Y/m/d g:i e'),
     'content' => $formatted_msg,
     'number' => $post_count,
     'replies' => []
