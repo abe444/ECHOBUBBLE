@@ -2,8 +2,6 @@
 require 'CONFIGURATION.php';
 include 'templates/header.php';
 include 'templates/threadhead.php';
-
-date_default_timezone_set('UTC');
 ?>
 
 <div class="replyingFORM">
@@ -21,9 +19,6 @@ date_default_timezone_set('UTC');
 
 
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Fetch
 $fetch_data = file_get_contents('database.json', true);
 $data = json_decode($fetch_data, true);

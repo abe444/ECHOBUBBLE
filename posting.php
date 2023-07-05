@@ -1,12 +1,8 @@
 <?php
-date_default_timezone_set('UTC');
 include 'templates/header.php';
 include 'templates/about.php';
 include 'CONFIGURATION.php';
 include 'formatting.php';
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 if (htmlspecialchars(trim($_POST['love_snare'])) !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
     die ('<span class="redtext">Systems has detected an automated bot request. Words to dwell over: Fuck off.</span>');

@@ -1,8 +1,4 @@
 <?php 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-date_default_timezone_set('UTC');
 include 'templates/header.php';
 include 'formatting.php';
 include 'CONFIGURATION.php';
@@ -34,11 +30,11 @@ if(!isset($msg_content) || trim($msg_content) == ''){
 }
 
 if(strlen($msg_content) < $CONFIGURATION['MIN_MESSAGE_LENGTH']){
-    die('<center><div style="padding: 10px;" class="collapsePost"><span class="redtext">Message length is too short! Add more detail!</span><br><img height=400 width="auto" src="public/images/stills/soma_angel2.png"><br><span class="redtext">Minimum character count: 5</span></center>');
+    die('<center><div style="padding: 10px;" class="collapsePost"><span class="redtext">Message length is too short! Add more detail!</span><br><img height=400 width="auto" src="public/images/stills/terry.gif"><br><span class="redtext">Minimum character count: 5</span></center>');
 }
 
 if($CONFIGURATION['MAX_MESSAGE_LENGTH'] < strlen($msg_content)){
-    die('<center><div style="padding: 10px;" class="collapsePost"><span class="redtext">Message length is too long! Lose a few characters would yah!</span><br><img height=400 width="auto" src="public/images/stills/soma_angel2.png"><span class="redtext">Maximum character count: 5000</span></center>');
+    die('<center><div style="padding: 10px;" class="collapsePost"><span class="redtext">Message length is too long! Lose a few characters would yah!</span><br><img height=400 width="auto" src="public/images/stills/terry.gif"><span class="redtext">Maximum character count: 5000</span></center>');
 }
 
 if (!is_numeric($id)){
