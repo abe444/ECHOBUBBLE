@@ -7,11 +7,11 @@ include 'templates/header.php';
 include 'formatting.php';
 include 'CONFIGURATION.php';
 
-if ($_POST['love_snare'] !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
+if (htmlspecialchars(trim($_POST['love_snare'])) !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
     die ('<span class="redtext">Systems has detected an automated bot request. Words to dwell over: Fuck off.</span>');
 }
 
-if (!empty($_POST['email'])){
+if (!empty(htmlspecialchars(trim($_POST['email'])))){
     die ('<span class="redtext">Systems has detected an automated bot request. Words to dwell over: Fuck off.</span>');
 }
 

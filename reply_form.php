@@ -8,12 +8,12 @@ date_default_timezone_set('UTC');
 
 <div class="replyingFORM">
 <details open>
-<summary class="threadTop">Replying to post #<?php echo htmlspecialchars($_GET['num'])?></summary><br>
+<summary class="threadTop">Replying to post #<?php echo htmlspecialchars(trim($_GET['num']))?></summary><br>
 <form method="POST" id="POST" action="replying.php">
-    <textarea spellcheck="true" required="" rows="10" cols="60" name="message" maxlength="3000" placeholder="Use >># formatting to reply to other THREADS."></textarea>
+    <textarea spellcheck="true" required="" rows="10" cols="60" name="message" maxlength="3000" placeholder="Use >># formatting to reply to other REPLIES."></textarea>
     <input type="hidden" name="love_snare" value="57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF" placeholder="love_snare">
     <input type="hidden" name="email" placeholder="email">
-    <input type="hidden" name="id" value="<?php echo $_GET['num']; ?>" readonly="true">
+    <input type="hidden" name="id" value="<?php echo htmlspecialchars(trim($_GET['num'])); ?>" readonly="true">
     <br><input class="buttonPOST" type="submit" id="submit" name="submit" value="POST">
 </form>
 </details>
@@ -42,7 +42,7 @@ if (!empty($data)) {
 
     echo '<div class="collapsePost">';
     echo '<details open>';
-    echo "<summary class='threadTop'><strong>(Replying to post #".$_GET['num'].") </strong></summary>";
+    echo "<summary class='threadTop'><strong>(Replying to post #".htmlspecialchars(trim($_GET['num'])).") </strong></summary>";
 
     foreach ($data as $key => $post) {
         $post_num = $post['number'];
@@ -72,5 +72,5 @@ if (!empty($data)) {
     echo '</div>';
 } 
 
-include 'templates/footer.html';
+include 'templates/footer.php';
 ?>

@@ -12,8 +12,8 @@ $data = [];
 
 $data = array_values($data);
 
-$jsonData = json_encode($data);
+$obliterate = json_encode($data);
 
-file_put_contents('database.json', $jsonData, true);
+file_put_contents('database.json', $obliterate, true);
 exit();
 }

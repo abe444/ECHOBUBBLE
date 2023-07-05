@@ -25,7 +25,7 @@ $data = json_decode($fetch_data, true);
 if (isset($_GET['num'])) {
     $bumped_thread = [];
     foreach ($data as $entry) {
-        if ($entry['number'] == $_GET['num']) {
+        if ($entry['number'] == htmlspecialchars(trim($_GET['num']))) {
             $bumped_thread[] = $entry;
         }
     }
@@ -36,25 +36,28 @@ if (!empty($data)) {
 
     echo '<div class="collapsePost">';
     echo '<details open>';
-    echo "<summary class='threadTop'><strong>(Viewing thread #".$_GET['num'].") </strong></summary>";
+    echo "<summary class='threadTop'><strong>(Viewing Post #".htmlspecialchars(trim($_GET['num'])).") </strong></summary>";
 
     foreach ($data as $key => $post) {
         $post_num = $post['number'];
-        $post_date = $post['datetime'];
+        $post_date = date('Y/m/d g:i e', $post['datetime']);
         $post_content = $post['content'];
 
         echo '<div class="thread">';
         echo '<details open>';
-        echo    '<summary class="threadTop"><strong>[OP]</strong> Thread #'.$post_num.' '. $post_date . '</summary>';
+        echo    '<summary class="threadTop"><strong>[OP]</strong> Post #'.$post_num.' '. $post_date . '</summary>';
         echo        '<p class="threadContent">' . $post_content . '</p>';
         echo    '</details>';
         echo '</div>';
 
         foreach ($post['replies'] as $key => $reply){
+        $reply_num = $reply['number'];
+        $reply_date = date('Y/m/d g:i e', $reply['datetime']);
+        $reply_content = $reply['content'];
         echo '<div class="reply">';
         echo '<details open>';
-        echo    '<summary class="threadTop">Reply #'.$reply['number'].' '. $reply['datetime'] . ' </summary>';
-        echo        '<p class="threadContent">' . $reply['content'] . '</p>';
+        echo    '<summary class="threadTop">Reply #'.$reply_num.' '. $reply_date . ' </summary>';
+        echo        '<p class="threadContent">' . $reply_content . '</p>';
         echo    '</details>';
         echo '</div>';
         }
@@ -63,5 +66,5 @@ if (!empty($data)) {
     echo '</div>';
 } 
 
-include 'templates/footer.html';
+include 'templates/footer.php';
 ?>

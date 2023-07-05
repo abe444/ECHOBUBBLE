@@ -17,7 +17,6 @@ $data = json_decode($fetch_data, true);
 usort($data, function($a, $b){
     return $b['bump_stamp'] <=> $a['bump_stamp'];
 });
-$limit = array_slice($data, 0, $CONFIGURATION['POST_LIMIT']);
 
 if (!empty($data)) {
 
@@ -56,5 +55,5 @@ if (!empty($data)) {
 }
 
 include 'controller.php';
-include 'templates/footer.html';
+include 'templates/footer.php';
 ?>

@@ -8,13 +8,14 @@ include 'formatting.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if ($_POST['love_snare'] !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
+if (htmlspecialchars(trim($_POST['love_snare'])) !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
     die ('<span class="redtext">Systems has detected an automated bot request. Words to dwell over: Fuck off.</span>');
 }
 
-if (!empty($_POST['email'])){
+if (!empty(htmlspecialchars(trim($_POST['email'])))){
     die ('<span class="redtext">Systems has detected an automated bot request. Words to dwell over: Fuck off.</span>');
 }
+
 // Retrieve and decode database data
 $fetch_data = file_get_contents('database.json', true);
 $data = json_decode($fetch_data, true);
