@@ -1,3 +1,5 @@
+<body>
+    <main>
 <div class="threadAbout" style="text-align: center;padding:20px;">
     <img src="../public/images/stills/terry.gif" height="160" width="auto">
     <p>[XMR]<span class="greentext">
