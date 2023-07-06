@@ -5,7 +5,7 @@ body {
     background-attachment: fixed;
     /*color: #fdfff5;*/
     color: #fff;
-    font-family: Andale Mono, monospace;
+    font-family: 'Noto Sans Regular',sans-serif;
     padding: 2px;
 }
 
