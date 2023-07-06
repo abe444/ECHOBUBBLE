@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <head>
     <meta charset="utf-8">
     <meta property="og:url" content="www.echobubble.xyz" />
