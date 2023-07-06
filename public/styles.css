@@ -1,11 +1,9 @@
 body {
     background-color: #635c84;
     background-image: url(images/bg/purplemarble2.jpg);
-    /* background-image: url(images/purplemarble2.jpg); */
     background-attachment: fixed;
-    /*color: #fdfff5;*/
     color: #fff;
-    font-family: Andale Mono,AndaleMono,monospace; 
+    font-family: verdana,geneva,sans-serif, monospace; 
     padding: 2px;
 }
 
@@ -288,7 +286,7 @@ input {
     /*background-color: #635c84;*/
     background-color: rgba(0, 0, 0, .6);
     overflow-wrap: break-word;
-    font-family: andale mono, monospace;
+    font-family: inherit;
     padding: 0.5em;
     margin-bottom: 1.3em;
     box-shadow: 5px 10px #888888;
@@ -328,7 +326,7 @@ input {
 
 .buttonPOST {
     border: none;
-    font-family: fabfont, monospace;
+    font-family: inherit;
     background-color: #EDEADE;
     margin-left: 1em;
     margin-bottom: 1em;
