@@ -1,4 +1,10 @@
 <?php 
+session_start();
+if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 60)
+    die('<h1>Slow down bucko!</h1><p>You are posting too fast.</p>Hold your horses.</p><p>Please wait at least '. 60 - (time()-$_SESSION['last_submit']) .' seconds</p>');
+else
+$_SESSION['last_submit'] = time();
+
 include 'CONFIGURATION.php';
 include 'formatting.php';
 
