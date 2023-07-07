@@ -7,12 +7,14 @@ $CONFIGURATION = [
     'POST_LIMIT'                                    => 255,
 
     // WEB RING
-    'FREN_1'                                        => 'https://textboard.lol/',
+    'FREN_1'                                        => 'https://textboard.net/',
     'FREN_2'                                        => 'https://textboard.org/', 
     'FREN_3'                                        => 'https://web.archive.org/web/20230617235026/https://textbunker.net/',
     
     // POSTING
+    'MAX_LINE_BREAKS'				                => 10,
+    'MAX_WORD_LENGTH'                               => 50,
     'MIN_MESSAGE_LENGTH'                            => 5,
-    'MAX_MESSAGE_LENGTH'                            => 5000,
+    'MAX_MESSAGE_LENGTH'                            => 2500,
 
 ];

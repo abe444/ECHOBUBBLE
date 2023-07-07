@@ -12,7 +12,7 @@ include 'templates/threadhead.php';
     <input type="hidden" name="love_snare" value="57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF" placeholder="love_snare">
     <input type="hidden" name="email" placeholder="email">
     <input type="hidden" name="id" value="<?php echo htmlspecialchars(trim($_GET['num'])); ?>" readonly="true">
-    <br><input class="buttonPOST" type="submit" id="submit" name="submit" value="POST">
+    <br><input class="buttonPOST" type="submit" id="last_submit" name="last_submit" value="POST">
 </form>
 </details>
 </div>

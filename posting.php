@@ -1,22 +1,48 @@
 <?php
 session_start();
+require 'CONFIGURATION.php';
+include 'formatting.php';
+
+if (isset($CONFIGURATION['MAX_WORD_LENGTH'])) {
+    if (contains_long_ass_word($_POST['message'], $CONFIGURATION['MAX_WORD_LENGTH'])) {
+        die("<h1>Some of your words are enormously long.</h1> <p>The max WORD LENGTH is ".$CONFIGURATION['MAX_WORD_LENGTH']." characters.</p><p>Please reformat your message.</p>");
+    }
+}
+
 if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 60)
-    die('<h1>Slow down bucko!</h1><p>You are posting too fast.</p>Hold your horses.</p><p>Please wait at least '. 60 - (time()-$_SESSION['last_submit']) .' seconds</p>');
+    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 60 - (time()-$_SESSION['last_submit']) .' seconds</p>');
 else
 $_SESSION['last_submit'] = time();
 
-include 'templates/header.php';
-include 'templates/about.php';
-include 'CONFIGURATION.php';
-include 'formatting.php';
+if($CONFIGURATION['MAX_LINE_BREAKS'] < count(explode("\n",$_POST['message']))){
+    die('<h1>Too many linebreaks.</h1><p>Please reformat your message to include less linebreaks.</p>');
+}
 
 if (htmlspecialchars(trim($_POST['love_snare'])) !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
-    die ('<span class="redtext">Systems has detected an automated bot request. Words to dwell over: Fuck off.</span>');
+    die ('<h1>Systems has detected an automated bot request.</h1><p>Words to dwell over: Fuck off.</p>');
 }
 
 if (!empty(htmlspecialchars(trim($_POST['email'])))){
-    die ('<span class="redtext">Systems has detected an automated bot request. Words to dwell over: Fuck off.</span>');
+    die ('<h1>Systems has detected an automated bot request.</h1> <p>Words to dwell over: Fuck off.</p>');
 }
+
+$msg_content = htmlspecialchars(trim(
+$_POST['message']), 
+ENT_QUOTES, 
+'UTF-8');
+
+if(!isset($msg_content) || trim($msg_content) == ''){
+    echo '<h1>You have left the message field blank. <h1><p>Try writing something aye....</p>';
+}
+
+if(strlen($msg_content) < $CONFIGURATION['MIN_MESSAGE_LENGTH']){
+    die('<h1>Message length is too short!</h1><p>Add more detail!</p><p>Minimum character count: '.$CONFIGURATION['MIN_MESSAGE_LENGTH'].'</p>');
+}
+
+if($CONFIGURATION['MAX_MESSAGE_LENGTH'] < strlen($msg_content)){
+    die('<h1>Message length is too long!</h1><p>Lose a few characters would yah!</p><p>Maximum character count: '.$CONFIGURATION['MAX_MESSAGE_LENGTH'].'</p>');
+}
+
 
 // Retrieve and decode database data
 $fetch_data = file_get_contents('database.json', true);
@@ -31,30 +57,7 @@ $post_count = count($data) + 1;
 $timestamp = time();
 $bump_stamp = time();
 
-$msg_content = htmlspecialchars(trim(
-$_POST['message']), 
-ENT_QUOTES, 
-'UTF-8');
-
-if(!isset($msg_content) || trim($msg_content) == ''){
-    echo '<h3>You have left the message field blank. <br><br> Try writing something aye....</h3>';
-}
-
-if(strlen($msg_content) < $CONFIGURATION['MIN_MESSAGE_LENGTH']){
-    die('<center><div style="padding: 10px;" class="collapsePost"><span class="redtext">Message length is too short! Add more detail!</span><br><img height=400 width="auto" src="public/images/stills/soma_angel2.png"><br><span class="redtext">Minimum character count: 5</span></center>');
-}
-
-if($CONFIGURATION['MAX_MESSAGE_LENGTH'] < strlen($msg_content)){
-    die('<center><div style="padding: 10px;" class="collapsePost"><span class="redtext">Message length is too long! Lose a few characters would yah!</span><br><img height=400 width="auto" src="public/images/stills/soma_angel2.png"><span class="redtext">Maximum character count: 5000</span></center>');
-}
-
 $formatted_msg = markdown_to_html(post_referencer($msg_content));
-
-// Blacklisting glowie posts
-if (preg_match('/mega/i', $formatted_msg)){
-$formatted_msg = preg_replace('/loli/i', '<span class="redtext">[MESSAGE DELETED] [GLOWTARDS BTFO\'ED]</span>', $formatted_msg);
-$formatted_msg = preg_replace('/mega/i', '<span class="redtext">[MESSAGE DELETED] [GLOWIE BTFO\'ED]</span>', $formatted_msg);
-}
 
 $entry = [
     'is_post' => true,
