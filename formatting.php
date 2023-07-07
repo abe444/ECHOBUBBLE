@@ -49,6 +49,8 @@ function markdown_to_html(string $text): string {
 
     return $text;
 }
+
+// from textboard.lol admin samas repo
 function contains_long_ass_word(string $input, int $max_length): bool {
     $words = preg_split('/[\s[:punct:]]+/', $input);
     foreach ($words as $word) {
