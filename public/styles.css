@@ -1,9 +1,11 @@
 body {
     background-color: #635c84;
     background-image: url(images/bg/purplemarble2.jpg);
+    /* background-image: url(images/purplemarble2.jpg); */
     background-attachment: fixed;
+    /*color: #fdfff5;*/
     color: #fff;
-    font-family: verdana,geneva,sans-serif, monospace; 
+    font-family: verdana,geneva,sans-serif, monospace;
     padding: 2px;
 }
 
@@ -286,7 +288,7 @@ input {
     /*background-color: #635c84;*/
     background-color: rgba(0, 0, 0, .6);
     overflow-wrap: break-word;
-    font-family: inherit;
+    font-family: verdana,geneva,sans-serif, monospace;
     padding: 0.5em;
     margin-bottom: 1.3em;
     box-shadow: 5px 10px #888888;
@@ -301,7 +303,7 @@ input {
     border: 2px solid #FFFDD0;
     background-color: #EDEADE;
     opacity: 0.80;
-    padding: 5px;
+    padding: 3px;
 }
 
 .threadContent {
@@ -326,7 +328,7 @@ input {
 
 .buttonPOST {
     border: none;
-    font-family: inherit;
+    font-family: verdana,geneva,sans-serif, monospace;
     background-color: #EDEADE;
     margin-left: 1em;
     margin-bottom: 1em;

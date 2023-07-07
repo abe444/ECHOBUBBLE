@@ -26,7 +26,7 @@ if (!empty($data)) {
 
         echo '<div class="thread">';
         echo '<details open>';
-        echo    '<summary class="threadTop"><strong><a style="color:black;font-weight:bold;" target="_self" href="reply_form.php?num='.$post_num.'">Reply</a></strong> Post #'.$post_num.' '. $post_date . ' </summary>';
+        echo    '<summary class="threadTop"><strong><a style="color:black;" target="_self" href="reply_form.php?num='.$post_num.'">Reply</a></strong> #'.$post_num.' '. $post_date . ' </summary>';
         echo        '<p class="threadContent">' . $post_content . '</p>';
         echo    '</details>';
         echo '</div>';
@@ -37,7 +37,7 @@ if (!empty($data)) {
             $reply_content = $reply['content'];
         echo '<div class="reply">';
         echo '<details open>';
-        echo    '<summary class="threadTop">Reply #'.$reply_num.' '. $reply_date . ' </summary>';
+        echo    '<summary class="threadTop">#'.$reply_num.' '. $reply_date . ' </summary>';
         echo        '<p class="threadContent">' . $reply_content . '</p>';
         echo    '</details>';
         echo '</div>';

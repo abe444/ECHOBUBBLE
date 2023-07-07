@@ -8,6 +8,5 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="og:description" content="A textboard for the bored." />
     <link type="text/css" rel="stylesheet" href="../public/styles.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.5">
     <title><?php echo $CONFIGURATION['SITE_NAME'];?></title>
 </head> 

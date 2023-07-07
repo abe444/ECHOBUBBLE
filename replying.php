@@ -1,7 +1,6 @@
 <?php 
-include 'templates/header.php';
-include 'formatting.php';
 include 'CONFIGURATION.php';
+include 'formatting.php';
 
 if (htmlspecialchars(trim($_POST['love_snare'])) !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
     die ('<span class="redtext">Systems has detected an automated bot request. Words to dwell over: Fuck off.</span>');
@@ -56,7 +55,7 @@ if ($id == $post['number']){
     $data[$key]['replies'][] = $entry;
 
 }else{
-    header('Location index.php');
+    header('Location: /index.php');
 }
 
 }
@@ -64,8 +63,8 @@ if ($id == $post['number']){
 $send_final = json_encode($data, JSON_PRETTY_PRINT);
 file_put_contents('database.json', $send_final);
 
-header("Location: index.php");
-
+header("Location: /index.php");
 exit();
+
 
 
