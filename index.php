@@ -58,4 +58,14 @@ if (!empty($data)) {
     echo '<center><span class="redtext">No posts YET. </span></center>';
 }
 
+// Post controller
+if ($total_entries >= $CONFIGURATION['POST_LIMIT']){
+    foreach ($data as $limit){
+    unset($limit[$CONFIGURATION['POST_LIMIT']]);
+    }
+    $send_data = json_encode($data);
+    file_put_contents('database.json', $send_data, true);
+    exit();
+}
+
 ?>
