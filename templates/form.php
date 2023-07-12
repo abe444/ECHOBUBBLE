@@ -1,5 +1,5 @@
 <div class="postingFORM">
-    <details >
+    <details open>
         <summary class="threadTop">Posting</summary>
         <br>
         <form method="POST" id="POST" action="posting.php">

@@ -6,7 +6,8 @@
     <meta property="og:title" content="ECHOBUBBLE.XYZ" />
     <meta property="og:image" content="../public/images/stills/terry.gif" />
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="og:description" content="A textboard for the bored." />
-    <link type="text/css" rel="stylesheet" href="../public/styles.css" />
+    <meta name="keywords" content="textboard, textforum, kareha, 90's BBS, PHP textboard">
+    <meta property="og:description" content="<?php echo $CONFIGURATION['SITE_DESCRIPTION']?>" />
+    <link type="text/css" rel="stylesheet" href="../public/styles/main.css" />
     <title><?php echo $CONFIGURATION['SITE_NAME'];?></title>
 </head> 

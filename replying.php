@@ -1,7 +1,11 @@
 <?php 
 session_start();
-require 'CONFIGURATION.php';
-include 'formatting.php';
+require 'inc/CONFIGURATION.php';
+include 'inc/formatting.php';
+
+if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+    die('<h1>Systems has detected an abnormal request method.</h1> <p>Turn back now.</p>');
+}
 
 if (isset($CONFIGURATION['MAX_WORD_LENGTH'])) {
     if (contains_long_ass_word($_POST['message'], $CONFIGURATION['MAX_WORD_LENGTH'])) {
@@ -9,8 +13,8 @@ if (isset($CONFIGURATION['MAX_WORD_LENGTH'])) {
     }
 }
 
-if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 60)
-    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.<p><p>Please wait at least '. 60 - (time()-$_SESSION['last_submit']) .' seconds</p>');
+if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 1)
+    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.<p><p>Please wait at least '. 1 - (time()-$_SESSION['last_submit']) .' seconds</p>');
 else
 $_SESSION['last_submit'] = time();
 
@@ -43,43 +47,39 @@ if($CONFIGURATION['MAX_MESSAGE_LENGTH'] < strlen($msg_content)){
     die('<h1>Message length is too long!</h1><p>Lose a few characters would yah!</p><p>Maximum character count: '.$CONFIGURATION['MAX_MESSAGE_LENGTH'].'</p>');
 }
 
-if (!is_numeric($id)){
-    header('Location: index.php');
-}
-
 $fetch_data = file_get_contents('database.json', true);
 $data = json_decode($fetch_data, true);
 
 $id = htmlspecialchars(trim($_POST['id']));
+$post_id = bin2hex(random_bytes(16));
 $timestamp = time();
 $bump_stamp = time();
 
-$formatted_msg = markdown_to_html(post_referencer($msg_content));
+
+$formatted_msg = markdown_to_html($msg_content);
 
 foreach($data as $key => $post){
-if ($id == $post['number']){
+if ($id == $post['id']){
     $data[$key]['bump_stamp'] = $bump_stamp;
     $reply_count = end($data[$key]['replies']);
     $entry = [
     'is_reply' => true,
+    'id' => $post_id,
     'reply_to' => $id,
     'datetime' => $timestamp,
-    //'datetime' => date('Y/m/d g:i e'),
     'content' => $formatted_msg,
     'number' => $reply_count['number'] + 1,
 ];
     $data[$key]['replies'][] = $entry;
-
-}else{
-    header('Location: /index.php');
-}
-
+    header("Location: thread.php?id=" . $id);
+    }else{
+        header('Location: /index.php');
+    }
 }
 
 $send_final = json_encode($data, JSON_PRETTY_PRINT);
 file_put_contents('database.json', $send_final);
 
-header("Location: /index.php");
 exit();
 
 

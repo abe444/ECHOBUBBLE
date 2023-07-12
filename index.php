@@ -1,5 +1,5 @@
 <?php
-require 'CONFIGURATION.php';
+require 'inc/CONFIGURATION.php';
 include 'templates/header.php';
 include 'templates/about.php';
 include 'templates/form.php';
@@ -13,42 +13,49 @@ usort($data, function($a, $b){
     return $b['bump_stamp'] <=> $a['bump_stamp'];
 });
 
+include 'inc/controller.php';
+
 if (!empty($data)) {
 
     echo '<div class="collapsePost">';
     echo '<details open>';
     echo '<summary class="threadTop"><strong>Post </strong></summary>';
 
-    foreach ($data as $key => $post) {
-        $post_num = $post['number'];
-        $post_date = date('Y/m/d g:i e', $post['datetime']);
+    $threads_cutoff = array_splice($data, 0, $CONFIGURATION['POST_LIMIT']);
+    foreach ($threads_cutoff as $key => $post) {
+        $post_id = $post['id'];
+        $post_date = date('Y-m-d g:i e', $post['datetime']);
         $post_content = $post['content'];
-
         echo '<div class="thread">';
         echo '<details open>';
-        echo    '<summary class="threadTop"><strong><a style="color:black;" target="_self" href="reply_form.php?num='.$post_num.'">Reply</a></strong> #'.$post_num.' '. $post_date . ' </summary>';
+        echo    '<summary class="threadTop"><strong><a target="_self" href="thread.php?id='.$post_id.'">Reply</a></strong> ' . $post_date . ' </summary>';
         echo        '<p class="threadContent">' . $post_content . '</p>';
         echo    '</details>';
         echo '</div>';
+        if (count($post['replies']) >= 2){
+            echo '<p class="threadContent"><strong>Latest bumps: </strong></p>';
+        }
 
+    if ($reply_count >= 2) {
+        array_splice($post['replies'], 0, -2);
         foreach ($post['replies'] as $key => $reply){
+            $reply_id = $reply['id'];
             $reply_num = $reply['number'];
-            $reply_date = date('Y/m/d g:i e', $reply['datetime']);
+            $reply_date = date('Y-m-d g:i e', $reply['datetime']);
             $reply_content = $reply['content'];
         echo '<div class="reply">';
         echo '<details open>';
-        echo    '<summary class="threadTop">#'.$reply_num.' '. $reply_date . ' </summary>';
+        echo    '<summary class="threadTop">#'.$reply_num.' '. $reply_date . '</summary>';
         echo        '<p class="threadContent">' . $reply_content . '</p>';
         echo    '</details>';
         echo '</div>';
+            }
         }
     }
     echo '</details>';
     echo '</div>';
 } else {
-    echo '<center><div style="padding: 10px;" class="collapsePost"><span class="redtext">LIMIT REACHED. DATABASE FILE HAS BEEN WIPED. </span><br><img src="public/images/stills/regeneration.png"></span></center>';
+    echo '<center><span class="redtext">No posts YET. </span></center>';
 }
 
-include 'controller.php';
-include 'templates/footer.php';
 ?>
