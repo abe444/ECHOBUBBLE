@@ -33,7 +33,7 @@ if (!empty($data)) {
         echo    '</details>';
         echo '</div>';
         if (count($post['replies']) >= 2){
-            echo '<p class="threadContent"><strong>Latest bumps: </strong></p>';
+            echo '<p class="threadContent"><strong><span class="glow">Latest bumps: </span></strong></p>';
         }
 
     if ($reply_count >= 2) {
