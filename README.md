@@ -16,3 +16,9 @@ Ratwires rewritten.
 |   ==   | redtext     |
 |   >    | greentext   |
 |   <    | bluetext    |
+
+This is simply my attempt at rewriting a simple "database-less" textboard heavily inspired by another now defunct textboard project that went by the name of [ratwires.space](https://github.com/faissaloo/ratmachine "The Ratmachine").
+My overall understanding of web programming is painfully rudimentary. Everything seen is written by hand without a framework. All in procedural PHP and HTML/CSS of course.
+
+If you wish to fork this for your own amusement, a LEMP stack with JSON in place instead of MySQL/MariaDB would be the ideal choice. 
+Having the index page reverse proxied will greatly help too. 
