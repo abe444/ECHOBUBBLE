@@ -12,7 +12,7 @@ $CONFIGURATION = [
     'MIN_MESSAGE_LENGTH'                            => 5,
     'MAX_MESSAGE_LENGTH'                            => 2500,
 
-    'POST_LIMIT'                                    => 255,
+    'POSTS_DISPLAYED'                               => 30,
     
     'LATEST_BUMPS_DISPLAYED'                        => 2,
 ];

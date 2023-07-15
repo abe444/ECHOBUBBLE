@@ -1,6 +1,6 @@
 body {
     background-color: #635c84;
-    background-image: url(../images/bg/bg_purplewindpaper.gif);
+    background-image: url(../images/bg/glitchy.jpg);
     background-attachment: fixed;
     color: #D4F9FF;
     font-family: sans-serif, monospace;
@@ -18,7 +18,6 @@ hr {
 
 hr:after {
     background: #EDEADE;
-    /*content: '✛';*/
     padding: 0 4px;
     position: relative;
     top: -13px;
@@ -26,12 +25,12 @@ hr:after {
 
 table {
     width: 100%;
-    margin: 1em;
-    padding: 5px;
+    padding: 3px;
+    margin: 0.2em;
 }
 
 th {
-    color: #ffffff;
+    color: #2bff00;
     padding: 0.1em 0.5em;
     font-family: monospace;
     font-weight: normal;
@@ -42,9 +41,20 @@ th {
 
 td {
     border: 0;
-    padding: 0.1em 0.5em;
+    color: #f7f7f7;
+    padding: 1em 1em;
     line-height: 1em;
 }
+
+tr:nth-child(odd) {
+    background: rgb(150, 147, 240, 0.4);
+}
+
+tr:hover {
+    background-color: #9693F0;
+    word-break: break-word;
+}
+
 
 /* Text Effects ----------------------------------------> */
 
@@ -260,7 +270,7 @@ input {
 .collapsePost {
     border: 2px solid #4a65dd;
     border-width: thin;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, .4);
     overflow-wrap: break-word;
     box-shadow: 12px 10px 13px 0px rgba(0, 0, 0, 0.75);
     margin-top: 1em;

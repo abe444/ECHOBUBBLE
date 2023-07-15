@@ -18,10 +18,9 @@ include 'inc/controller.php';
 if (!empty($data)) {
 
     echo '<div class="collapsePost">';
-    echo '<details open>';
-    echo '<summary class="threadTop"><strong>Post </strong></summary>';
+    echo '<summary class="threadTop"><strong><nav>[Post] ~ <a href="listing.php" alt="thred listing">Thread</a></nav></strong></summary>';
 
-    $threads_cutoff = array_splice($data, 0, $CONFIGURATION['POST_LIMIT']);
+    $threads_cutoff = array_splice($data, 0, $CONFIGURATION['POSTS_DISPLAYED']);
     foreach ($threads_cutoff as $key => $post) {
         $post_id = $post['id'];
         $post_date = date('Y-m-d g:i e', $post['datetime']);
@@ -47,7 +46,6 @@ if (!empty($data)) {
         echo '<details open>';
         echo    '<summary class="threadTop">#'.$reply_num.' '. $reply_date . '</summary>';
         echo        '<p class="threadContent">' . $reply_content . '</p>';
-        echo    '</details>';
         echo '</div>';
             }
         }
@@ -56,16 +54,6 @@ if (!empty($data)) {
     echo '</div>';
 } else {
     echo '<center><span class="redtext">No posts YET. </span></center>';
-}
-
-// Post controller
-if ($total_entries >= $CONFIGURATION['POST_LIMIT']){
-    foreach ($data as $limit){
-    unset($limit[$CONFIGURATION['POST_LIMIT']]);
-    }
-    $send_data = json_encode($data);
-    file_put_contents('database.json', $send_data, true);
-    exit();
 }
 
 ?>
