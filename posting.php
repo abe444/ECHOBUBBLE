@@ -13,8 +13,8 @@ if (isset($CONFIGURATION['MAX_WORD_LENGTH'])) {
     }
 }
 
-if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 1)
-    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 1 - (time()-$_SESSION['last_submit']) .' seconds</p>');
+if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 75)
+    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 75 - (time()-$_SESSION['last_submit']) .' seconds</p>');
 else
 $_SESSION['last_submit'] = time();
 

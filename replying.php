@@ -13,8 +13,8 @@ if (isset($CONFIGURATION['MAX_WORD_LENGTH'])) {
     }
 }
 
-if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 1)
-    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.<p><p>Please wait at least '. 1 - (time()-$_SESSION['last_submit']) .' seconds</p>');
+if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 75)
+    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.<p><p>Please wait at least '. 75 - (time()-$_SESSION['last_submit']) .' seconds</p>');
 else
 $_SESSION['last_submit'] = time();
 
@@ -55,8 +55,11 @@ $post_id = bin2hex(random_bytes(16));
 $timestamp = time();
 $bump_stamp = time();
 
+function reply_referencing(string $input): string{
+    return $input = preg_replace('/&gt;&gt;(\d+)/', "<a class=\"reply_ref\" target=\"_self\" style=\"color: #dfff00;\" href=\"/view.php?id=".htmlspecialchars(trim($_POST['id']), ENT_QUOTES, 'UTF-8')."&r=$1\">&gt;&gt;$1</a>", $input);
+}
 
-$formatted_msg = markdown_to_html($msg_content);
+$formatted_msg = markdown_to_html(reply_referencing($msg_content));
 
 foreach($data as $key => $post){
 if ($id == $post['id']){
