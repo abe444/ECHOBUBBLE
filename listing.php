@@ -11,7 +11,7 @@ $data = json_decode($fetch_data, true);
 ?>
 
 <div class="collapsePost">
-    <summary class="threadTop"><strong><nav><a href="index.php" alt="home page">Post</a> ~ [Thread]</nav></strong></summary>
+    <summary class="threadTop"><strong><nav><a href="index.php" alt="home page">Posts </a> ~ [Thread list] ~ <a href="archives.php" alt="le archives">Archives</a></nav></strong></summary>
 <?php 
 
 usort($data, function($a, $b){
@@ -42,3 +42,5 @@ echo    '</tbody>';
 echo '</table>';
 ?>
 </div>
+
+<?php include 'templates/webring.php';?>

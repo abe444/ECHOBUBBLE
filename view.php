@@ -46,4 +46,4 @@ if (!empty($data)) {
     } 
 }
 
-include 'templates/footer.php';
+include 'templates/webring.php';

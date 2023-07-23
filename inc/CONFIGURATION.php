@@ -1,18 +1,20 @@
 <?php 
 
 $CONFIGURATION = [
-    // SITE INDEX
+    // SITE INFO
     'SITE_NAME'                                     => 'ECHOBUBBLE',
     'SITE_DESCRIPTION'                              => 'The ECHOBUBBLE is a shameless nod to the now defunct ratwires.space textboard.',
 
     // POSTING
-    'MAX_LINE_BREAKS'				                => 15,
-    'MAX_WORD_LENGTH'                               => 50,
-    
-    'MIN_MESSAGE_LENGTH'                            => 5,
+    'MAX_LINE_BREAKS'				                => 20,
+    'MAX_WORD_LENGTH'                               => 80,
+    'MIN_MESSAGE_LENGTH'                            => 3,
     'MAX_MESSAGE_LENGTH'                            => 2500,
 
-    'POSTS_DISPLAYED'                               => 30,
-    
+    // INDEX.PHP
+    'POSTS_DISPLAYED'                               => 255,
     'LATEST_BUMPS_DISPLAYED'                        => 2,
+
+    // ARCHIVES.PHP
+    'POST_LIMIT'                                    => 255,
 ];

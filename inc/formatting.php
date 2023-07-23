@@ -19,6 +19,9 @@ function markdown_to_html(string $text): string {
 
     // %%spoiler%%
     $text = preg_replace('/(%%)(.*?)\1/', '<span id="spoiler">$2</span>', $text);
+    
+    // ||button||
+    $text = preg_replace('/(\|\|)(.*?)\1/', '<button>$2</button>', $text);
 
     // $$shaketext$$ 
     $text = preg_replace('/(\$\$)(.*?)\1/', '<span class="shaketext">$2</span>', $text);
@@ -31,6 +34,9 @@ function markdown_to_html(string $text): string {
 
     // !!GLOW text!! 
     $text = preg_replace('/(\!\!)(.*?)\1/', '<span class="glow">$2</span>', $text);
+
+    // [[BUTTON text]] 
+    $text = preg_replace('/(\[\[)(.*?)\1/', '<button>$2</button>', $text);
 
     // ==Red text== 
     $text = preg_replace('/(\=\=)(.*?)\1/', '<span class="redtext">$2</span>', $text);

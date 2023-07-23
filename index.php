@@ -18,7 +18,7 @@ include 'inc/controller.php';
 if (!empty($data)) {
 
     echo '<div class="collapsePost">';
-    echo '<summary class="threadTop"><strong><nav>[Post] ~ <a href="listing.php" alt="thred listing">Thread</a></nav></strong></summary>';
+    echo '<summary class="threadTop"><strong><nav>[Posts] ~ <a href="listing.php" alt="thred listing">Thread List</a> ~ <a href="archives.php" alt="le archives">Archives</a></nav></strong></summary>';
 
     $threads_cutoff = array_splice($data, 0, $CONFIGURATION['POSTS_DISPLAYED']);
     foreach ($threads_cutoff as $key => $post) {
@@ -40,7 +40,7 @@ if (!empty($data)) {
         foreach ($post['replies'] as $key => $reply){
             $reply_id = $reply['id'];
             $reply_num = $reply['number'];
-            $reply_date = date('Y-m-d g:i e', $reply['datetime']);
+            $reply_date = date('Y-m-d-g:i e', $reply['datetime']);
             $reply_content = $reply['content'];
         echo '<div class="reply">';
         echo '<details open>';
@@ -53,7 +53,35 @@ if (!empty($data)) {
     echo '</details>';
     echo '</div>';
 } else {
-    echo '<center><span class="redtext">No posts YET. </span></center>';
+    echo '<div class="collapsePost">';
+    echo '<summary class="threadTop"><strong><nav>[Posts] ~ <a href="listing.php" alt="thred listing">Threads</a> ~ <a href="archives.php" alt="le archives">Archives</a></nav></strong></summary>';
+    echo '<center><p><span class="redtext">Limit reached. </span></p><p class="redtext">Previous posts have been archived. </p><p class="shaketext">Start a new post now.</p></center>';
+    echo '</details>';
+    echo '</div>';
+}
+
+include 'templates/webring.php';
+
+
+if ($thread_count >= $CONFIGURATION['POST_LIMIT']){
+$db = 'database.json';
+$dir = 'ARCHIVED_'.date('Y-m-d_g:i').'_UTC [NOT CURRENTLY VIEWABLE]';
+if (!is_dir('archives/'.$dir)){
+mkdir('archives/' . $dir);
+touch('archives/' . $dir . '/index.php');
+}
+$archive_file = 'archives/'.$dir.'/ARCHIVED_'.date('Y-m-d_g:i').'_UTC.json';
+copy($db, $archive_file);
+
+$archive_index = 'templates/archive_indexing.php';
+copy($archive_index, 'archives/' . $dir . '/index.php');
+
+    foreach ($data as $limit){
+    unset($limit[$CONFIGURATION['POST_LIMIT']]);
+    }
+    $send_data = json_encode($data, JSON_PRETTY_PRINT, true);
+    file_put_contents('database.json', $send_data, true);
+    exit();
 }
 
 ?>

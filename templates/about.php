@@ -8,6 +8,6 @@
 </p>
 <details>
     <summary>About</summary>
-    <p>The <a style="font-weight:bold;" href="https://github.com/abe444/ECHOBUBBLE.git" alt="ECHOBUBBLE GITHUB REPOSITORY">ECHOBUBBLE</a> is a shameless nod to the now defunct <a style="font-weight:bold;" href="https://github.com/faissaloo/ratmachine.git" alt="OG RATMACHINE REPOSITORY">ratwires.space</a>.</p>
+    <p>The <a style="font-weight:bold;" href="https://github.com/abe444/ECHOBUBBLE.git" alt="ECHOBUBBLE GITHUB REPOSITORY">ECHOBUBBLE</a> is a shameless nod to the now defunct <a style="font-weight:bold;" href="https://github.com/faissaloo/ratmachine.git" alt="OG RATMACHINE REPOSITORY">ratwires.space</a> textboard. There is a <strong>255</strong> posting limit, after which the json database file gets archived and the site starts a new generation of posts.</p>
 </details>
 </div>

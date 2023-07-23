@@ -30,12 +30,11 @@ table {
 }
 
 th {
-    color: #2bff00;
     padding: 0.1em 0.5em;
-    font-family: monospace;
+    font-family: inherit;
     font-weight: normal;
     text-align: left;
-    font-size: 1.5em;
+    font-size: 1.2em;
     table-layout: fixed;
 }
 
@@ -276,7 +275,7 @@ input {
     margin-top: 1em;
     margin-bottom: 1em;
     border-radius: 2px;
-    padding-bottom: 20px;
+    padding-bottom: 1px;
 }
 
 .thread {

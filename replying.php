@@ -74,9 +74,7 @@ if ($id == $post['id']){
     'number' => $reply_count['number'] + 1,
 ];
     $data[$key]['replies'][] = $entry;
-    header("Location: thread.php?id=" . $id);
-    }else{
-        header('Location: /index.php');
+    header("Location: thread.php?id=" . $id . '#bottom');
     }
 }
 
