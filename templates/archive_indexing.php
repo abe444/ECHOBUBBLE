@@ -43,7 +43,7 @@ if (!empty($data)) {
         foreach ($post['replies'] as $key => $reply){
             $reply_id = $reply['id'];
             $reply_num = $reply['number'];
-            $reply_date = date('Y-m-d-g:i e', $reply['datetime']);
+            $reply_date = date('Y-m-d g:i e', $reply['datetime']);
             $reply_content = $reply['content'];
         echo '<div class="reply">';
         echo '<details open>';

@@ -8,6 +8,8 @@ include 'templates/reply_form.php';
 $fetch_data = file_get_contents('database.json', true);
 $data = json_decode($fetch_data, true);
 
+include 'inc/controller.php';
+
 if (isset($_GET['id'])) {
     $bumped_thread = [];
     foreach ($data as $entry) {
@@ -21,13 +23,17 @@ if (isset($_GET['id'])) {
     exit;
 }
 
+echo '<center>';
+echo '<a style="font-weight:bold;" href="#bottom">Bottom</a>';
+echo '</center>';
+echo '<hr>';
+
 if (!empty($data)) {
 
     echo '<div class="collapsePost">';
     echo "<summary class='threadTop'><strong>ID: ".htmlspecialchars(trim($_GET['id']))." </strong></summary>";
 
     foreach ($data as $key => $post) {
-        $post_num = $post['number'];
         $post_date = date('Y-m-d g:i e', $post['datetime']);
         $post_content = $post['content'];
 
@@ -54,4 +60,10 @@ if (!empty($data)) {
 } 
 
 include 'templates/footer.php';
+
+if ($total_entries >= $CONFIGURATION['POST_LIMIT']){
+    header('Location: templates/text.php');
+//    header("Location: index.php");
+}
+
 ?>

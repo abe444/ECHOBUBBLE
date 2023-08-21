@@ -15,13 +15,34 @@ usort($data, function($a, $b){
 
 include 'inc/controller.php';
 
+// Very important pagination
+
+// Items per page
+$itemsPerPage = 10;
+
+// Current page from the query string
+$page = isset($_GET['p']) ? intval($_GET['p']) : 1;
+
+// Calculate total pages and offset
+$totalItems = count($data);
+$totalPages = ceil($totalItems / $itemsPerPage);
+$offset = ($page - 1) * $itemsPerPage;
+
+// Get data for the current page
+$currentPageData = array_slice($data, $offset, $itemsPerPage);
+
+// Pagination links
+$prevPage = ($page > 1) ? $page - 1 : null;
+$nextPage = ($page < $totalPages) ? $page + 1 : null;
+
+// Very important pagination
+
 if (!empty($data)) {
 
     echo '<div class="collapsePost">';
-    echo '<summary class="threadTop"><strong><nav>[Posts] ~ <a href="listing.php" alt="thred listing">Thread List</a> ~ <a href="archives.php" alt="le archives">Archives</a></nav></strong></summary>';
+    echo '<summary class="threadTop"><strong><nav>[Posts: '.$total_entries.'] ~ <a href="archives.php" alt="le archives">Archives</a></nav></strong></summary>';
 
-    $threads_cutoff = array_splice($data, 0, $CONFIGURATION['POSTS_DISPLAYED']);
-    foreach ($threads_cutoff as $key => $post) {
+    foreach ($currentPageData as $key => $post) {
         $post_id = $post['id'];
         $post_date = date('Y-m-d g:i e', $post['datetime']);
         $post_content = $post['content'];
@@ -40,7 +61,7 @@ if (!empty($data)) {
         foreach ($post['replies'] as $key => $reply){
             $reply_id = $reply['id'];
             $reply_num = $reply['number'];
-            $reply_date = date('Y-m-d-g:i e', $reply['datetime']);
+            $reply_date = date('Y-m-d g:i e', $reply['datetime']);
             $reply_content = $reply['content'];
         echo '<div class="reply">';
         echo '<details open>';
@@ -54,16 +75,28 @@ if (!empty($data)) {
     echo '</div>';
 } else {
     echo '<div class="collapsePost">';
-    echo '<summary class="threadTop"><strong><nav>[Posts] ~ <a href="listing.php" alt="thred listing">Threads</a> ~ <a href="archives.php" alt="le archives">Archives</a></nav></strong></summary>';
+    echo '<summary class="threadTop"><strong><nav>[Posts: '.$total_entries.'] ~ <a href="archives.php" alt="le archives">Archives</a></nav></strong></summary>';
     echo '<center><p><span class="redtext">Limit reached. </span></p><p class="redtext">Previous posts have been archived. </p><p class="shaketext">Start a new post now.</p></center>';
     echo '</details>';
     echo '</div>';
 }
 
+echo "<hr>";
+echo "<center><p class='pagination'>Page ({$page} / {$totalPages})</p></center>";
+
+echo '<center>';
+// Display previous and next page links
+if ($prevPage !== null) {
+    echo "<a class='pagination' href=\"?p={$prevPage}\">Previous</a> ";
+}
+if ($nextPage !== null) {
+    echo "<a class='pagination' href=\"?p={$nextPage}\">Next</a>";
+}
+echo '</center>';
 include 'templates/webring.php';
 
 
-if ($thread_count >= $CONFIGURATION['POST_LIMIT']){
+if ($total_entries >= $CONFIGURATION['POST_LIMIT']){
 $db = 'database.json';
 $dir = 'ARCHIVED_'.date('Y-m-d_g:i').'_UTC [NOT CURRENTLY VIEWABLE]';
 if (!is_dir('archives/'.$dir)){
@@ -78,6 +111,8 @@ copy($archive_index, 'archives/' . $dir . '/index.php');
 
     foreach ($data as $limit){
     unset($limit[$CONFIGURATION['POST_LIMIT']]);
+    $data = [];
+    $data = array_values($data);
     }
     $send_data = json_encode($data, JSON_PRETTY_PRINT, true);
     file_put_contents('database.json', $send_data, true);

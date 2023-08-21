@@ -3,32 +3,51 @@ session_start();
 require 'inc/CONFIGURATION.php';
 include 'inc/formatting.php';
 
+// Poster must be posting.
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
     die('<h1>Systems has detected an abnormal request method.</h1> <p>Turn back now.</p>');
 }
 
+// Word length controller
 if (isset($CONFIGURATION['MAX_WORD_LENGTH'])) {
     if (contains_long_ass_word($_POST['message'], $CONFIGURATION['MAX_WORD_LENGTH'])) {
         die("<h1>Some of your words are enormously long.</h1> <p>The max WORD LENGTH is ".$CONFIGURATION['MAX_WORD_LENGTH']." characters.</p><p>Please reformat your message.</p>");
     }
 }
 
-if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 75)
-    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.<p><p>Please wait at least '. 75 - (time()-$_SESSION['last_submit']) .' seconds</p>');
+// Flood controller
+if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 45)
+    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.<p><p>Please wait at least '. 45 - (time()-$_SESSION['last_submit']) .' seconds</p>');
 else
 $_SESSION['last_submit'] = time();
 
+// Captcha controller
+if (isset($_POST['captcha'])) {
+    $userInput = strtolower(trim($_POST['captcha']));
+    
+    if ($userInput === $_SESSION['captcha_fruit']) {
+        $userInput === $_SESSION['captcha_fruit'];
+    } else {
+        die("<h1>CAPTCHA failed.</h1> <p>Please try again.</p>");
+    }
+} else {
+    die("<h1>CAPTCHA Failed.</h1> <p>Input is missing.</p>");
+}
+
+
+// Poster is limited to a fixed number of linebreaks
 if($CONFIGURATION['MAX_LINE_BREAKS'] < count(explode("\n",$_POST['message']))){
     die('<h1>Too many linebreaks.</h1><p>Please reformat your message to include less linebreaks.</p>');
 }
 
+// Honeypot controller
 if (htmlspecialchars(trim($_POST['love_snare'])) !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
     die ('<h1>Systems has detected an automated bot request.</h1><p>Words to dwell over: Fuck off.</p>');
 }
-
 if (!empty(htmlspecialchars(trim($_POST['email'])))){
     die ('<h1>Systems has detected an automated bot request.</h1><p>Words to dwell over: Fuck off.</p>');
 }
+// Honeypot controller
 
 $msg_content = htmlspecialchars(trim(
 $_POST['message']), 

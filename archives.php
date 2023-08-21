@@ -7,8 +7,9 @@ include 'templates/archivesheading.php';
 $fetch_data = file_get_contents('database.json', true);
 $data = json_decode($fetch_data, true);
 
+include 'inc/controller.php';
 echo '<div class="collapsePost">';
-echo '<summary class="threadTop"><strong><nav><a href="index.php" alt="index">Posts</a> ~ <a href="listing.php" alt="thred listing">Thread list</a> ~ [Archives]</nav></strong></summary>';
+echo '<summary class="threadTop"><strong><nav><a href="index.php" alt="index">Posts: '.$total_entries.'</a> ~ [Archives]</nav></strong></summary>';
 $directory = 'archives/';
 
 if (is_dir($directory)) {

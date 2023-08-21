@@ -6,8 +6,8 @@ $CONFIGURATION = [
     'SITE_DESCRIPTION'                              => 'The ECHOBUBBLE is a shameless nod to the now defunct ratwires.space textboard.',
 
     // POSTING
-    'MAX_LINE_BREAKS'				                => 20,
-    'MAX_WORD_LENGTH'                               => 80,
+    'MAX_LINE_BREAKS'				                => 45,
+    'MAX_WORD_LENGTH'                               => 50,
     'MIN_MESSAGE_LENGTH'                            => 3,
     'MAX_MESSAGE_LENGTH'                            => 2500,
 

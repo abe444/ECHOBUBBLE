@@ -26,7 +26,8 @@ hr:after {
 table {
     width: 100%;
     padding: 3px;
-    margin: 0.2em;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 th {
@@ -210,7 +211,7 @@ tr:hover {
     right: 0;
     z-index: 255;
     color: #fdfff5;
-    background-color: rgba(0, 0, 0, .6);
+    background-color: rgb(0, 0, 0, 0.6);
     display: table;
 }
 
@@ -272,10 +273,9 @@ input {
     background-color: rgba(0, 0, 0, .4);
     overflow-wrap: break-word;
     box-shadow: 12px 10px 13px 0px rgba(0, 0, 0, 0.75);
-    margin-top: 1em;
     margin-bottom: 1em;
     border-radius: 2px;
-    padding-bottom: 1px;
+    padding-bottom: 0.8em;
 }
 
 .thread {
@@ -286,7 +286,7 @@ input {
     box-shadow: 12px 10px 13px 0px rgba(0, 0, 0, 0.75);
     margin-left: 0.5em;
     margin-right: 0.5em;
-    margin-top: 2em;
+    margin-top: 1em;
     margin-bottom: 1em;
     border-radius: 3px;
 }
@@ -325,12 +325,11 @@ input {
     border: 2px solid #9693F0;
     background-color: #9693F0;
     opacity: 0.80;
-    padding: 2px;
+    padding: 1px;
 }
 
 .threadContent {
     color: #D4F9FF;
-    line-height: 2em;
     margin-top: 0.8em;
     margin-bottom: 0.8em;
     margin-right: 2em;
@@ -350,14 +349,26 @@ input {
 
 .pagination {
     display: inline-block;
-    font-size: 1em;
+    text-shadow: 1px 1px 2px black;
+    font-weight: bold;
+    margin-bottom: 0.5em;
 }
 
 .pagination a {
     color: black;
     float: left;
+    margin: 5px;
     padding: 8px 16px;
     text-decoration: none;
+}
+
+.pagination a:hover {
+    background-color: #9693F0;
+}
+
+.pagination a.active {
+    background-color: #9693F0;
+    border: 2px solid #4a65dd;
 }
 
 .buttonPOST {
