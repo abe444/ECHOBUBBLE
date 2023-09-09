@@ -2,9 +2,16 @@ body {
     background-color: #635c84;
     background-image: url(../images/bg/glitchy.jpg);
     background-attachment: fixed;
+    max-width: 1100px;
+    margin-right: auto;
+    margin-left: auto;
     color: #D4F9FF;
     font-family: sans-serif, monospace;
     padding: 5px;
+}
+
+details {
+    border-radius: 5px;
 }
 
 hr {
@@ -58,11 +65,19 @@ tr:hover {
 
 /* Text Effects ----------------------------------------> */
 
+pre,
+code {
+    color: black;
+    background-color: #ddd;
+    padding: 0.5em;
+    display: table;
+}
+
 #spoiler {
     background-color: black;
     color: black;
-    padding: 0.3em;
-    margin: 0.3em;
+    line-height: 1.6em;
+    padding: 2px;
 }
 
 #spoiler:hover {
@@ -75,6 +90,7 @@ tr:hover {
 
 .reply_ref {
     font-weight: 1000;
+    color: #dfff00;
     font-size: 1.2em;
 }
 
@@ -202,34 +218,34 @@ tr:hover {
 /* Text Effects ----------------------------------------> */
 
 .postingFORM {
-    border: 2px solid #4a65dd;
+    border: 2px solid #9693F0;
     border-width: thin;
     border-radius: 4px;
-    float: right;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 255;
     color: #fdfff5;
-    background-color: rgb(0, 0, 0, 0.6);
-    display: table;
+    background-color: rgba(46, 44, 72, 0.6);
+    border-radius: 10px;
+}
+
+.formTop {
+    color: #ffffff;
+    border: 2px solid #9693F0;
+    background-color: #9693F0;
+    opacity: 0.80;
+    padding: 1px;
 }
 
 .replyingFORM {
-    border: 2px solid #4a65dd;
+    border: 2px solid #9693F0;
     border-width: thin;
     border-radius: 4px;
-    float: right;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 255;
     color: #fdfff5;
-    background-color: rgba(0, 0, 0, .6);
-    display: table;
+    background-color: rgba(46, 44, 72, 0.6);
+    margin: 10px;
+    border-radius: 10px;
 }
 
 textarea {
+    width: 70%;
     border: 2px solid #FFFDD0;
     border-style: outset;
     background-color: #EDEADE;
@@ -268,41 +284,43 @@ input {
 }
 
 .collapsePost {
-    border: 2px solid #4a65dd;
+    border: 2px solid white;
     border-width: thin;
     background-color: rgba(0, 0, 0, .4);
     overflow-wrap: break-word;
     box-shadow: 12px 10px 13px 0px rgba(0, 0, 0, 0.75);
     margin-bottom: 1em;
-    border-radius: 2px;
-    padding-bottom: 0.8em;
+    border-radius: 10px;
 }
 
 .thread {
-    border: 2px solid #9693F0;
+    border: 2px solid #f1f1f1;
     border-width: thin;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(46, 44, 72, 0.7);
     overflow-wrap: break-word;
     box-shadow: 12px 10px 13px 0px rgba(0, 0, 0, 0.75);
     margin-left: 0.5em;
     margin-right: 0.5em;
     margin-top: 1em;
     margin-bottom: 1em;
-    border-radius: 3px;
+    border-radius: 10px;
+    padding-left: 15px;
+    padding-bottom: 5px;
 }
 
 .reply {
-    border: 2px solid #9693F0;
+    border: 2px solid #f1f1f1;
     border-style: inset;
     border-width: thin;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(46, 44, 72, 0.7);
     box-shadow: 12px 10px 13px 0px rgba(0, 0, 0, 0.75);
     margin-left: 1.5em;
     margin-right: 1.5em;
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
     overflow-wrap: break-word;
-    border-radius: 4px;
-    display: table;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
 }
 
 .threadAbout {
@@ -314,22 +332,18 @@ input {
     padding: 0.5em;
     margin-bottom: 1.3em;
     box-shadow: 5px 10px #888888;
-    border-radius: 2px;
+    border-radius: 10px;
     box-shadow: 12px 10px 13px 0px rgba(0, 0, 0, 0.75);
     -webkit-box-shadow: 12px 10px 13px 0px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 12px 10px 13px 0px rgba(0, 0, 0, 0.75);
 }
 
 .threadTop {
-    color: #ffffff;
-    border: 2px solid #9693F0;
-    background-color: #9693F0;
-    opacity: 0.80;
-    padding: 1px;
+    color: #fdfff5;
 }
 
 .threadContent {
-    color: #D4F9FF;
+    color: white;
     margin-top: 0.8em;
     margin-bottom: 0.8em;
     margin-right: 2em;
@@ -349,13 +363,15 @@ input {
 
 .pagination {
     display: inline-block;
-    text-shadow: 1px 1px 2px black;
+    color: white;
+    text-shadow: 1px 1px 10px black;
     font-weight: bold;
     margin-bottom: 0.5em;
 }
 
 .pagination a {
     color: black;
+    text-shadow: 1px 1px 10px black;
     float: left;
     margin: 5px;
     padding: 8px 16px;

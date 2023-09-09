@@ -4,6 +4,9 @@ function markdown_to_html(string $text): string {
     
     // newline
     $text = nl2br($text);
+
+    // Code    
+    $text = preg_replace('/```([^`]+)```/s', '<pre>$1</pre>', $text);
     
     // **bold**
     $text = preg_replace('/(\*\*)(?!\*)([^*]*?)(?<!\*)\1/', '<b>$2</b>', $text);
@@ -57,14 +60,4 @@ function sanitize(string $input): string {
     // Trim, sanitize HTML and return formatted string
     return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
 };
-function contains_long_ass_word(string $input, int $max_length): bool {
-    $words = preg_split('/[\s[:punct:]]+/', $input);
-    foreach ($words as $word) {
-        if (strlen($word) > $max_length) {
-            return true;
-        }
-    }
-    return false;
-}
-
 ///// ALL CREDIT GOES TO TEXTBOARD.LOL /////

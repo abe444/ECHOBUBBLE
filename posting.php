@@ -5,38 +5,26 @@ include 'inc/formatting.php';
 
 // Poster must be posting.
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-    die('<h1>Systems has detected an abnormal request method.</h1> <p>Turn back now.</p>');
-}
-
-// Word length controller
-if (isset($CONFIGURATION['MAX_WORD_LENGTH'])) {
-    if (contains_long_ass_word(sanitize($_POST['message']), $CONFIGURATION['MAX_WORD_LENGTH'])) {
-        die("<h1>Some of your words are enormously long.</h1> <p>The max WORD LENGTH is ".$CONFIGURATION['MAX_WORD_LENGTH']." characters.</p><p>Please reformat your message.</p>");
-    }
+    header('Location: /index.php');
 }
 
 // Flood controller
-if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 45)
-    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 45 - (time()-$_SESSION['last_submit']) .' seconds</p>');
+if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 10)
+    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 10 - (time()-$_SESSION['last_submit']) .' seconds</p><img src="public/images/stills/gondolas/2.png" alt="gondola">');
 else
 $_SESSION['last_submit'] = time();
 
 // Captcha controller
 if (isset($_POST['captcha'])) {
-    $userInput = strtolower(trim($_POST['captcha']));
+    $userInput = trim($_POST['captcha']);
     
     if ($userInput === $_SESSION['captcha_fruit']) {
         $userInput === $_SESSION['captcha_fruit'];
     } else {
-        die("<h1>CAPTCHA failed.</h1> <p>Please try again.</p>");
+        die("<h1>CAPTCHA failed.</h1> <p>Please try again.</p><img src='public/images/stills/gondolas/1.png' alt='gondola'>");
     }
-} else {
+} elseif(!isset($_POST['captcha']) || trim($_POST['captcha']) == '') {
     die("<h1>CAPTCHA Failed.</h1> <p>Input is missing.</p>");
-}
-
-// Poster is limited to a fixed number of linebreaks
-if($CONFIGURATION['MAX_LINE_BREAKS'] < count(explode("\n",$_POST['message']))){
-    die('<h1>Too many linebreaks.</h1><p>Please reformat your message to include less linebreaks.</p>');
 }
 
 // Honeypot controller
@@ -48,19 +36,36 @@ if (!empty(htmlspecialchars(trim($_POST['email'])))){
 }
 // Honeypot controller
 
+$title_content = sanitize($_POST['title']);
 $msg_content = sanitize($_POST['message']);
 
+// Message controller
 if(!isset($msg_content) || trim($msg_content) == ''){
-    echo '<h1>You have left the message field blank. <h1><p>Try writing something aye....</p>';
+    echo '<h1>You have left the message field blank. </h1><p>Try writing something aye....</p>';
 }
 
 if(strlen($msg_content) < $CONFIGURATION['MIN_MESSAGE_LENGTH']){
-    die('<h1>Message length is too short!</h1><p>Add more detail!</p><p>Minimum character count: '.$CONFIGURATION['MIN_MESSAGE_LENGTH'].'</p>');
+    die('<h1>Message length is too short!</h1><p>Add more detail!</p><p>Minimum character count: '.$CONFIGURATION['MIN_MESSAGE_LENGTH'].'</p><img src="public/images/stills/gondolas/3.gif" alt="gondola">');
 }
 
 if($CONFIGURATION['MAX_MESSAGE_LENGTH'] < strlen($msg_content)){
     die('<h1>Message length is too long!</h1><p>Lose a few characters would yah!</p><p>Maximum character count: '.$CONFIGURATION['MAX_MESSAGE_LENGTH'].'</p>');
 }
+// Message controller
+
+//Title controller
+if(!isset($title_content) || trim($title_content) == ''){
+    die('<h1>You have left the title field blank. </h1><p>Try writing something aye....</p>');
+}
+
+if(strlen($title_content) < $CONFIGURATION['MIN_TITLE_LENGTH']){
+    die('<h1>Title length is too short!</h1><p>Add more detail!</p><p>Minimum character count: '.$CONFIGURATION['MIN_TITLE_LENGTH'].'</p>');
+}
+
+if($CONFIGURATION['MAX_TITLE_LENGTH'] < strlen($title_content)){
+    die('<h1>Title length is too long!</h1><p>Lose a few characters would yah!</p><p>Maximum character count: '.$CONFIGURATION['MAX_TITLE_LENGTH'].'</p>');
+}
+//Title controller
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 // Retrieve and decode database data
@@ -72,13 +77,15 @@ $post_count = count($data) + 1;
 $timestamp = time();
 $bump_stamp = time();
 
-$formatted_msg = markdown_to_html(($msg_content));
+$formatted_title = $title_content;
+$formatted_msg = markdown_to_html($msg_content);
 
 $entry = [
     'is_post' => true,
     'id' => $id,
     'bump_stamp' => $bump_stamp,
     'datetime' => $timestamp,
+    'title' => $formatted_title,
     'content' => $formatted_msg,
     'number' => $post_count,
     'replies' => []
@@ -91,7 +98,7 @@ $entry = [
 
     header("Location: index.php");
 
+session_write_close();
 exit();
-
 
 

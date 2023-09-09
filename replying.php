@@ -5,40 +5,28 @@ include 'inc/formatting.php';
 
 // Poster must be posting.
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-    die('<h1>Systems has detected an abnormal request method.</h1> <p>Turn back now.</p>');
-}
-
-// Word length controller
-if (isset($CONFIGURATION['MAX_WORD_LENGTH'])) {
-    if (contains_long_ass_word($_POST['message'], $CONFIGURATION['MAX_WORD_LENGTH'])) {
-        die("<h1>Some of your words are enormously long.</h1> <p>The max WORD LENGTH is ".$CONFIGURATION['MAX_WORD_LENGTH']." characters.</p><p>Please reformat your message.</p>");
-    }
+    header('Location: /index.php');
 }
 
 // Flood controller
-if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 45)
-    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.<p><p>Please wait at least '. 45 - (time()-$_SESSION['last_submit']) .' seconds</p>');
+if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 10)
+    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 10 - (time()-$_SESSION['last_submit']) .' seconds</p><img src="public/images/stills/gondolas/2.png" alt="gondola">');
 else
 $_SESSION['last_submit'] = time();
 
 // Captcha controller
 if (isset($_POST['captcha'])) {
-    $userInput = strtolower(trim($_POST['captcha']));
+    $userInput = trim($_POST['captcha']);
     
     if ($userInput === $_SESSION['captcha_fruit']) {
         $userInput === $_SESSION['captcha_fruit'];
     } else {
-        die("<h1>CAPTCHA failed.</h1> <p>Please try again.</p>");
+        die("<h1>CAPTCHA failed.</h1> <p>Please try again.</p><img src='public/images/stills/gondolas/1.png' alt='gondola'>");
     }
 } else {
     die("<h1>CAPTCHA Failed.</h1> <p>Input is missing.</p>");
 }
 
-
-// Poster is limited to a fixed number of linebreaks
-if($CONFIGURATION['MAX_LINE_BREAKS'] < count(explode("\n",$_POST['message']))){
-    die('<h1>Too many linebreaks.</h1><p>Please reformat your message to include less linebreaks.</p>');
-}
 
 // Honeypot controller
 if (htmlspecialchars(trim($_POST['love_snare'])) !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
@@ -59,7 +47,7 @@ if(!isset($msg_content) || trim($msg_content) == ''){
 }
 
 if(strlen($msg_content) < $CONFIGURATION['MIN_MESSAGE_LENGTH']){
-    die('<h1>Message length is too short!</h1><p>Add more detail!</p><p>Minimum character count: '.$CONFIGURATION['MIN_MESSAGE_LENGTH'].'</p>');
+    die('<h1>Message length is too short!</h1><p>Add more detail!</p><p>Minimum character count: '.$CONFIGURATION['MIN_MESSAGE_LENGTH'].'</p><img src="public/images/stills/gondolas/3.gif" alt="gondola">');
 }
 
 if($CONFIGURATION['MAX_MESSAGE_LENGTH'] < strlen($msg_content)){
@@ -74,8 +62,14 @@ $post_id = bin2hex(random_bytes(16));
 $timestamp = time();
 $bump_stamp = time();
 
-function reply_referencing(string $input): string{
-    return $input = preg_replace('/&gt;&gt;(\d+)/', "<a class=\"reply_ref\" target=\"_self\" style=\"color: #dfff00;\" href=\"/view.php?id=".htmlspecialchars(trim($_POST['id']), ENT_QUOTES, 'UTF-8')."&r=$1\">&gt;&gt;$1</a>", $input);
+function reply_referencing(string $input): string {
+    // Replace >> followed by numbers
+    $input = preg_replace('/&gt;&gt;(\d+)/', '<a target="_self" href="/view.php?id=' . htmlspecialchars(trim($_POST['id']), ENT_QUOTES, 'UTF-8') . '&r=$1"><span class="reply_ref">&gt;&gt;$1</span></a>', $input);
+    
+    // Replace >>OP
+    $input = preg_replace('/&gt;&gt;OP/', '<span class="reply_ref"">&gt;&gt;OP</span>', $input);
+
+    return $input;
 }
 
 $formatted_msg = markdown_to_html(reply_referencing($msg_content));
@@ -100,7 +94,7 @@ if ($id == $post['id']){
 $send_final = json_encode($data, JSON_PRETTY_PRINT);
 file_put_contents('database.json', $send_final);
 
+session_write_close();
 exit();
-
 
 
