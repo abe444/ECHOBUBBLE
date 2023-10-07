@@ -41,7 +41,6 @@ if (strlen($bubble_titler) > 50) {
 
 $meta_description = $bubble_titler;
 
-
 include 'templates/header.php';
 include 'templates/threadhead.php';
 
@@ -95,4 +94,5 @@ include 'templates/reply_form.php';
 include 'templates/footer.php';
 
 echo "<center style='text-shadow: 1px 1px 10px black;'><strong>ID: ".htmlspecialchars(trim($_GET['id']))." </strong></center>";
+exit();
 ?>

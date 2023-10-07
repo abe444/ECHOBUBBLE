@@ -71,3 +71,5 @@ echo '<hr>';
 echo '<p class="threadContent" style="font-weight:bold;text-shadow: 1px 1px 10px black;"><a href="/thread.php?id='.$_GET['id'].'" alt="back">Back</a></p>';
 echo "<center id='bottom' style='text-shadow: 1px 1px 10px black;'><strong>ID: ".htmlspecialchars(trim($_GET['id']))." </strong></center>";
 echo '<script src="js/main.js"></script>';
+exit();
+

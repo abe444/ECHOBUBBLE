@@ -8,34 +8,6 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST'){
     header('Location: /index.php');
 }
 
-// Flood controller
-if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 10)
-    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 10 - (time()-$_SESSION['last_submit']) .' seconds</p><img src="public/images/stills/gondolas/2.png" alt="gondola">');
-else
-$_SESSION['last_submit'] = time();
-
-// Captcha controller
-if (isset($_POST['captcha'])) {
-    $userInput = trim($_POST['captcha']);
-    
-    if ($userInput === $_SESSION['captcha_fruit']) {
-        $userInput === $_SESSION['captcha_fruit'];
-    } else {
-        die("<h1>CAPTCHA failed.</h1> <p>Please try again.</p><img src='public/images/stills/gondolas/1.png' alt='gondola'>");
-    }
-} elseif(!isset($_POST['captcha']) || trim($_POST['captcha']) == '') {
-    die("<h1>CAPTCHA Failed.</h1> <p>Input is missing.</p>");
-}
-
-// Honeypot controller
-if (htmlspecialchars(trim($_POST['love_snare'])) !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
-    die ('<h1>Systems has detected an automated bot request.</h1><p>Words to dwell over: Fuck off.</p>');
-}
-if (!empty(htmlspecialchars(trim($_POST['email'])))){
-    die ('<h1>Systems has detected an automated bot request.</h1> <p>Words to dwell over: Fuck off.</p>');
-}
-// Honeypot controller
-
 $title_content = sanitize($_POST['title']);
 $msg_content = sanitize($_POST['message']);
 
@@ -67,6 +39,30 @@ if($CONFIGURATION['MAX_TITLE_LENGTH'] < strlen($title_content)){
 }
 //Title controller
 
+// Captcha and flood controller
+if (!isset($_POST['captcha']) || $_POST['captcha'] !== $_SESSION['captcha_fruit']) {
+    //$_SESSION['captcha_wait_until'] = time() + 25;
+    die("<meta name=viewport' content='width=device-width, initial-scale=1.0' /><h1>Captcha FAILED.</h1> <p>Please try again.</p><img src='public/images/stills/gondolas/3.gif' alt='gondola' width='300' height=auto>");
+    //die("<meta name=viewport' content='width=device-width, initial-scale=1.0' /><h1>Captcha FAILED.</h1> <p>Posting cooldown will now commence </p><p>Please try again.</p><img src='public/images/stills/gondolas/3.gif' alt='gondola' width='250' height=auto><h2><a href='/index.php'>Back</a></h2>");
+    //die('<h1>Incorrect captcha.</h1><p>Try again.</p>');
+}
+/*
+elseif (isset($_SESSION['captcha_wait_until']) && $_SESSION['captcha_wait_until'] > time()) {
+    $waitTime = $_SESSION['captcha_wait_until'] - time();
+    die("<meta name=viewport' content='width=device-width, initial-scale=1.0' /><h1>You are in cooldown mode.</h2><p>Please wait $waitTime seconds before trying again.</p><img src='public/images/stills/gondolas/2.png' alt='gondola' width='450' height=auto><h2><a href='/index.php'>Back</a></h2>");
+    // header("Location: index.php");
+    // exit;
+}
+*/
+
+// Flood controller
+if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 50){
+    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 50 - (time()-$_SESSION['last_submit']) .' seconds</p><img src="public/images/stills/gondolas/2.png" width="450" height=auto alt="gondola">');
+}else{
+    $_SESSION['last_submit'] = time();
+}
+// Flood controller
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 // Retrieve and decode database data
 $fetch_data = file_get_contents('database.json', true);
@@ -81,7 +77,6 @@ $formatted_title = $title_content;
 $formatted_msg = markdown_to_html($msg_content);
 
 $entry = [
-    'is_post' => true,
     'id' => $id,
     'bump_stamp' => $bump_stamp,
     'datetime' => $timestamp,
@@ -100,5 +95,6 @@ $entry = [
 
 session_write_close();
 exit();
+
 
 

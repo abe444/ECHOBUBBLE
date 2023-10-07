@@ -1,6 +1,5 @@
 User-agent: *
 Disallow: /
-Disallow: /archives
 Disallow: /captcha.php
 Disallow: /inc
 Disallow: /public

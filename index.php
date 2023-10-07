@@ -17,7 +17,7 @@ include 'inc/controller.php';
 // Very important pagination
 
 // Items per page
-$itemsPerPage = 15;
+$itemsPerPage = 20;
 
 // Current page from the query string
 $page = isset($_GET['p']) ? intval($_GET['p']) : 1;
@@ -38,6 +38,7 @@ $nextPage = ($page < $totalPages) ? $page + 1 : null;
 
 include 'templates/header.php';
 include 'templates/about.php';
+include 'templates/index_info.php';
 
 if (!empty($data)) {
 
@@ -73,5 +74,5 @@ if ($nextPage !== null) {
 }
 echo '</center>';
 include 'templates/webring.php';
-
+exit();
 ?>

@@ -14,4 +14,8 @@ $CONFIGURATION = [
     // TITLE
     'MIN_TITLE_LENGTH'                              => 5,
     'MAX_TITLE_LENGTH'                              => 100,
+
+    // THREAD BUMP LIMIT
+    'BUMP_LIMIT'                                    => 3,
+
 ];

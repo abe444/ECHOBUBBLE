@@ -8,42 +8,11 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST'){
     header('Location: /index.php');
 }
 
-// Flood controller
-if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 10)
-    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 10 - (time()-$_SESSION['last_submit']) .' seconds</p><img src="public/images/stills/gondolas/2.png" alt="gondola">');
-else
-$_SESSION['last_submit'] = time();
+$msg_content = sanitize($_POST['message']);
 
-// Captcha controller
-if (isset($_POST['captcha'])) {
-    $userInput = trim($_POST['captcha']);
-    
-    if ($userInput === $_SESSION['captcha_fruit']) {
-        $userInput === $_SESSION['captcha_fruit'];
-    } else {
-        die("<h1>CAPTCHA failed.</h1> <p>Please try again.</p><img src='public/images/stills/gondolas/1.png' alt='gondola'>");
-    }
-} else {
-    die("<h1>CAPTCHA Failed.</h1> <p>Input is missing.</p>");
-}
-
-
-// Honeypot controller
-if (htmlspecialchars(trim($_POST['love_snare'])) !== "57yx42HUTnWgkxKW2puHngtUjX24twWj2ifYF"){
-    die ('<h1>Systems has detected an automated bot request.</h1><p>Words to dwell over: Fuck off.</p>');
-}
-if (!empty(htmlspecialchars(trim($_POST['email'])))){
-    die ('<h1>Systems has detected an automated bot request.</h1><p>Words to dwell over: Fuck off.</p>');
-}
-// Honeypot controller
-
-$msg_content = htmlspecialchars(trim(
-$_POST['message']), 
-ENT_QUOTES, 
-'UTF-8');
-
+// Message controller
 if(!isset($msg_content) || trim($msg_content) == ''){
-    echo '<h1>You have left the message field blank. <h1><p> Try writing something aye....</p>';
+    echo '<h1>You have left the message field blank. </h1><p>Try writing something aye....</p>';
 }
 
 if(strlen($msg_content) < $CONFIGURATION['MIN_MESSAGE_LENGTH']){
@@ -53,18 +22,43 @@ if(strlen($msg_content) < $CONFIGURATION['MIN_MESSAGE_LENGTH']){
 if($CONFIGURATION['MAX_MESSAGE_LENGTH'] < strlen($msg_content)){
     die('<h1>Message length is too long!</h1><p>Lose a few characters would yah!</p><p>Maximum character count: '.$CONFIGURATION['MAX_MESSAGE_LENGTH'].'</p>');
 }
+// Message controller
+
+// Captcha and flood controller
+if (!isset($_POST['captcha']) || $_POST['captcha'] !== $_SESSION['captcha_fruit']) {
+    //$_SESSION['captcha_wait_until'] = time() + 25;
+    die("<meta name=viewport' content='width=device-width, initial-scale=1.0' /><h1>Captcha FAILED.</h1> <p>Please try again.</p><img src='public/images/stills/gondolas/3.gif' alt='gondola' width='300' height=auto>");
+    //die("<meta name=viewport' content='width=device-width, initial-scale=1.0' /><h1>Captcha FAILED.</h1> <p>Posting cooldown will now commence </p><p>Please try again.</p><img src='public/images/stills/gondolas/3.gif' alt='gondola' width='250' height=auto><h2><a href='/index.php'>Back</a></h2>");
+    //die('<h1>Incorrect captcha.</h1><p>Try again.</p>');
+}
+/*
+elseif (isset($_SESSION['captcha_wait_until']) && $_SESSION['captcha_wait_until'] > time()) {
+    $waitTime = $_SESSION['captcha_wait_until'] - time();
+    die("<meta name=viewport' content='width=device-width, initial-scale=1.0' /><h1>You are in cooldown mode.</h2><p>Please wait $waitTime seconds before trying again.</p><img src='public/images/stills/gondolas/2.png' alt='gondola' width='450' height=auto><h2><a href='/index.php'>Back</a></h2>");
+    // header("Location: index.php");
+    // exit;
+}
+*/
+
+// Flood controller
+if (isset($_SESSION['last_submit']) && time()-$_SESSION['last_submit'] < 50){
+    die('<h1>Slow down fren.</h1><p>You are posting too fast.</p><p>Hold your horses.</p><p>Please wait at least '. 50 - (time()-$_SESSION['last_submit']) .' seconds</p><img src="public/images/stills/gondolas/2.png" width="450" height=auto alt="gondola">');
+}else{
+    $_SESSION['last_submit'] = time();
+}
+
 
 $fetch_data = file_get_contents('database.json', true);
 $data = json_decode($fetch_data, true);
 
-$id = htmlspecialchars(trim($_POST['id']));
+$id = sanitize($_POST['id']);
 $post_id = bin2hex(random_bytes(16));
 $timestamp = time();
 $bump_stamp = time();
 
 function reply_referencing(string $input): string {
     // Replace >> followed by numbers
-    $input = preg_replace('/&gt;&gt;(\d+)/', '<a target="_self" href="/view.php?id=' . htmlspecialchars(trim($_POST['id']), ENT_QUOTES, 'UTF-8') . '&r=$1"><span class="reply_ref">&gt;&gt;$1</span></a>', $input);
+    $input = preg_replace('/&gt;&gt;(\d+)/', '<a target="_self" href="/view.php?id=' . sanitize($_POST['id']) . '&r=$1"><span class="reply_ref">&gt;&gt;$1</span></a>', $input);
     
     // Replace >>OP
     $input = preg_replace('/&gt;&gt;OP/', '<span class="reply_ref"">&gt;&gt;OP</span>', $input);
@@ -79,7 +73,6 @@ if ($id == $post['id']){
     $data[$key]['bump_stamp'] = $bump_stamp;
     $reply_count = end($data[$key]['replies']);
     $entry = [
-    'is_reply' => true,
     'id' => $post_id,
     'reply_to' => $id,
     'datetime' => $timestamp,
@@ -96,5 +89,6 @@ file_put_contents('database.json', $send_final);
 
 session_write_close();
 exit();
+
 
 

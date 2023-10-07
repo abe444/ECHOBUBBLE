@@ -2,9 +2,9 @@
 session_start();
 
 // Array of random fruits
-$fruit_basket = ["W42bk7", "2t7zWK", "v9cFtH", "Ko4cUW", "bEoM7V", "LbVKx3", "kjXCn5", "DmX4Ur", "gX5Amy", "2wUE5D"];
+$fruit_basket = ["W42bk7", "2t75WK", "v9cFtH", "Ko4cUW", "bEoM8V", "LbVKx3", "kjXCn5", "DmX4Ur", "gX5Amy", "2wUE5D"];
 //$fruit_basket = ["W42BK7", "2T7ZWK", "V9CFTH", "KO4CUW", "BEOM7V", "LBVKX3", "KJXCN5", "DMX4UR", "GX5AMY", "2WUE5D"];
-
+ 
 // Randomly select a fruit from the array
 $pick_fruit = $fruit_basket[array_rand($fruit_basket)];
 
@@ -14,8 +14,11 @@ $scrambledFruit = str_shuffle($pick_fruit);
 // Store the selected fruit in a session variable
 $_SESSION['captcha_fruit'] = $scrambledFruit;
 
+// Letter spacing
+$displayFruit = implode('  ', str_split($scrambledFruit));
+
 // Define image dimensions
-$imageWidth = 170; // Increased width to accommodate larger text
+$imageWidth = 180; // Increased width to accommodate larger text
 $imageHeight = 40; // Increased height to accommodate larger text
 
 // Create an image with GD library
@@ -31,17 +34,17 @@ $textColor = imagecolorallocate($captchaImage, 0, 0, 0);
 imagefilledrectangle($captchaImage, 0, 0, $imageWidth - 1, $imageHeight - 1, $bgColor);
 
 // Calculate text position centered within the image
-$textX = ($imageWidth - imagefontwidth(7) * strlen($scrambledFruit)) / 2; // Increased font size (7)
+$textX = ($imageWidth - imagefontwidth(7) * strlen($displayFruit)) / 2; // Increased font size (7)
 $textY = ($imageHeight - imagefontheight(7)) / 2; // Increased font size (7)
 
 // Draw the scrambled fruit text on the image with a larger font
-imagestring($captchaImage, 7, $textX, $textY, $scrambledFruit, $textColor); // Increased font size (7)
+imagestring($captchaImage, 7, $textX, $textY, $displayFruit, $textColor); // Increased font size (7)
 
 // Add random noise lines
-//for ($i = 0; $i < 1; $i++) {
-//    $lineColor = imagecolorallocate($captchaImage, rand(0, 255), rand(0, 255), rand(0, 255));
-//    imageline($captchaImage, rand(0, $imageWidth), rand(0, $imageHeight), rand(0, $imageWidth), rand(0, $imageHeight), $lineColor);
-//}
+for ($i = 0; $i < 7; $i++) {
+    $lineColor = imagecolorallocate($captchaImage, rand(0, 255), rand(0, 255), rand(0, 255));
+    imageline($captchaImage, rand(0, $imageWidth), rand(0, $imageHeight), rand(0, $imageWidth), rand(0, $imageHeight), $lineColor);
+}
 
 // Add random noise dots
 for ($i = 0; $i < 150; $i++) {
@@ -57,3 +60,4 @@ imagepng($captchaImage);
 imagedestroy($captchaImage);
 session_write_close();
 ?>
+

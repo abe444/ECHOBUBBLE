@@ -1,3 +1,19 @@
 [
-
+    {
+        "id": "6601c658cb8e6e0f58814c1e63b1d90b",
+        "bump_stamp": 1696704980,
+        "datetime": 1696704892,
+        "title": "a test 1",
+        "content": "a test",
+        "number": 1,
+        "replies": [
+            {
+                "id": "31ee491965182c704c03aafda43e4a21",
+                "reply_to": "6601c658cb8e6e0f58814c1e63b1d90b",
+                "datetime": 1696704980,
+                "content": "a test reply",
+                "number": 1
+            }
+        ]
+    }
 ]
