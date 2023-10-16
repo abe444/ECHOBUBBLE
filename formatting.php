@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 function code_ripper($text) {
     $input = preg_replace('/\*\*/', '&ast;&ast;$1', $text);
     $input = preg_replace('/\*/', '&ast;$1', $text);
@@ -9,20 +8,20 @@ function code_ripper($text) {
 
 ///// ALL CREDIT GOES TO TEXTBOARD.LOL /////
 function markdown_to_html(string $text): string {
-    
+
 
     // newline
     $text = nl2br($text);
 
     // Code
-    $text = preg_replace('/``([^`]+)``/s', '<div class="code">$1</div>', code_ripper($text));
+    $text = preg_replace('/``([^`]+)``/s', '<pre class="code">$1</pre>', $text);
     $text = preg_replace('/`(?!`)(.*?)`/', '<code>$1</code>', $text);
 
     // **bold**
-    $text = preg_replace('/(bb)(?![b])([^b]*?)(?<![b])\1/', '<b>$2</b>', $text);
+    $text = preg_replace('/(\*\*)(?!\*)([^*]*?)(?<!\*)\1/', '<b>$2</b>', $text);
 
     // *italic*
-    $text = preg_replace('/(i)(?![i])([^i]*?)(?<![i])\1/', '<i>$2</i>', $text);
+    $text = preg_replace('/(\*)(?!\*)([^*]*?)(?<!\*)\1/', '<i>$2</i>', $text);
 
     // ~~strikethrough~~
     $text = preg_replace('/(~~)(.*?)\1/', '<del>$2</del>', $text);
@@ -32,7 +31,7 @@ function markdown_to_html(string $text): string {
 
     // %%spoiler%%
     $text = preg_replace('/(%%)(.*?)\1/', '<span id="spoiler">$2</span>', $text);
-    
+
     // ||button||
     $text = preg_replace('/(\|\|)(.*?)\1/', '<button>$2</button>', $text);
 
@@ -54,7 +53,7 @@ function markdown_to_html(string $text): string {
     // <Blue text 
     $text = preg_replace('/(^|\r\n|\n|\r)&lt;(.*?)($|\r\n|\n|\r(?!\n))(?!(\r\n)?&lt;)(\r\n|\n|\r)*/s',
                          '<span class="bluetext">&lt;$2</span>', $text);
-    
+
     // >GREEN text 
     $text = preg_replace('/(^|\r\n|\n|\r)&gt;(.*?)($|\r\n|\n|\r(?!\n))(?!(\r\n)?&gt;)(\r\n|\n|\r)*/s',
                          '<span class="greentext">&gt;$2</span>', $text);
@@ -71,4 +70,3 @@ function sanitize(string $input): string {
     return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
 };
 ///// ALL CREDIT GOES TO TEXTBOARD.LOL /////
-
